@@ -8,7 +8,6 @@
 template<typename T>
 class DoublyLinkedNode {
  public:
-  //your methods
 
  private:
   //your members
