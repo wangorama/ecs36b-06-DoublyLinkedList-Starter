@@ -472,3 +472,5 @@ TEST(InheritanceChecking, OutOfBoundsErrorInherits){
 TEST(InheritanceChecking, DoublyLinkedListErrorInherits){
   ASSERT_TRUE((std::is_base_of<std::exception, DoublyLinkedListError>::value));
 }
+
+//property test

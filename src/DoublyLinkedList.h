@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <memory>
+#include <ranges>
+
 #include "DoublyLinkedNode.h"
 #include "DoublyLinkedListEmptyError.h"
 #include "ConstDoublyLinkedListIterator.h"
@@ -30,53 +32,91 @@ public:
     explicit DoublyLinkedList(const std::vector<T>& values);
 
     //create an empty DoublyLinkedList
-    DoublyLinkedList();
+    DoublyLinkedList(): head(nullptr), tail(nullptr) {
+        //nullptr means its pointing to nothing, soo really nullptr is another word for 0
+    }
 
-
-    virtual ~DoublyLinkedList();
+    virtual ~DoublyLinkedList() {
+        clear();
+    }
 
     //remove all of the elements from your list
-    void clear();
+    void clear() {
+        Node_Ptr current = head;
+        while (current != nullptr) {
+            Node_Ptr next = current->next;
+            delete current;
+            current = next;
+        }
+        head = nullptr;
+        tail = nullptr;
+    }
 
     //get a reference to the front element in the list
-    const T& front() const;
+    const T &front() const {
+        if (head == nullptr) {throw DoublyLinkedListEmptyError();}
+        return head -> value;
+    }
 
-    T& front();
+    T &front() {
+        if (head == nullptr) {throw DoublyLinkedListEmptyError();}
+        return head -> value;
+    }
 
     //get a reference to the last element in the list
-    [[nodiscard]] const T& back() const;
+    [[nodiscard]] const T &back() const {
+        if (tail == nullptr) throw DoublyLinkedListEmptyError();
+        return tail -> value;
+    }
 
-    [[nodiscard]] T& back();
+    [[nodiscard]] T &back() {
+        if (tail == nullptr) throw DoublyLinkedListEmptyError();
+        return tail -> value;
+    }
 
     //add a value to the front of the list
-    void push_front(const T& value);
+    void push_front(const T &value) {
+
+    }
 
     //add a value to the back of the list
-    void push_back(const T& value);
+    void push_back(const T &value) {
+    }
 
     //is the list empty?
-    [[nodiscard]] bool empty() const;
+    [[nodiscard]] bool empty() const {
+
+    }
 
     //return the number of elements in the list
-    [[nodiscard]] int size() const;
+    [[nodiscard]] int size() const {
+    }
 
     //return a constant bidirectional iterator to the front of the list
-    [[nodiscard]] const_iterator begin() const;
+    [[nodiscard]] const_iterator begin() const {
+    }
 
-    [[nodiscard]] const_iterator end() const;
+    [[nodiscard]] const_iterator end() const {
+    }
 
     //return a nonconstant bidirectional iterator to the front of the list
-    [[nodiscard]] iterator begin();
+    [[nodiscard]] iterator begin() {
+    }
 
-    [[nodiscard]] iterator end();
+    [[nodiscard]] iterator end() {
+    }
 
-    [[nodiscard]] const_reverse_iterator crbegin() const;
+    [[nodiscard]] const_reverse_iterator crbegin() const {
+    }
 
-    [[nodiscard]] const_reverse_iterator crend() const;
+    [[nodiscard]] const_reverse_iterator crend() const {
+    }
 
-    [[nodiscard]] reverse_iterator rbegin();
+    [[nodiscard]] reverse_iterator rbegin() {
+    }
 
-    [[nodiscard]] reverse_iterator rend();
+    [[nodiscard]] reverse_iterator rend() {
+    }
 
     //insert the value at the position in the list
     //I promise not to use the iterator again after the insertion is done
@@ -84,7 +124,8 @@ public:
     //And the iterator was pointing to the 9 and we wanted to
     //insert -22 the result would be
     //1 <-> 22 <-> 9 <-> 17
-    void insert(iterator& position, const T& value);
+    void insert(iterator &position, const T &value) {
+    }
 
     //remove the element at the position pointed to
     //by the iterator.
@@ -92,21 +133,28 @@ public:
     //An example if we had the list 1 <-> 9 <-> 17
     //And when the wanted to erase the iterator was at the 9
     //1 <-> 17
-    void erase(iterator& position);
+    void erase(iterator &position) {
+    }
 
 private:
     // your class members
+    DoublyLinkedNode<T>* head;
+    DoublyLinkedNode<T>* tail;
+
 };
+
 
 //write to the stream each element in the list in order
 //with a space in between them
 template<typename T>
-std::ostream& operator<<(std::ostream& out, const DoublyLinkedList<T>& doublyLinkedList);
+std::ostream &operator<<(std::ostream &out, const DoublyLinkedList<T> &doublyLinkedList) {
+}
 
 //read elements from the stream as long as it is good
 // or until a newline (\n) is encountered
 //if a newline is encountered it should be consumed
 template<typename T>
-std::istream& operator>>(std::istream& in, DoublyLinkedList<T>& doublyLinkedList);
+std::istream &operator>>(std::istream &in, DoublyLinkedList<T> &doublyLinkedList) {
+}
 
 #endif //LINKEDLIST_DOUBLYLINKEDLIST_H

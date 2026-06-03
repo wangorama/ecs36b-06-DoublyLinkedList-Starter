@@ -20,7 +20,8 @@ public:
     using difference_type = ptrdiff_t;
 
     //are the two iterators equal?
-    bool operator==(const ConstDoublyLinkedListIterator<T>& rhs) const;
+    bool operator==(const ConstDoublyLinkedListIterator<T> &rhs) const {
+    }
 
     //are the two iterators different?
     bool operator!=(const ConstDoublyLinkedListIterator<T>& rhs) const;

@@ -4,13 +4,20 @@
 
 #ifndef LINKEDLIST_DOUBLELINKEDNODE_H
 #define LINKEDLIST_DOUBLELINKEDNODE_H
+#include "DoublyLinkedList.h"
+#include "DoublyLinkedList.h"
 
 template<typename T>
 class DoublyLinkedNode {
+    friend class DoublyLinkedList<T>;
+
  public:
+    DoublyLinkedNode(T value): value(value), next(next), prev(prev) {}
 
  private:
-  //your members
+    T value;
+    DoublyLinkedNode<T>* next;
+    DoublyLinkedNode<T>* prev;
 
 };
 

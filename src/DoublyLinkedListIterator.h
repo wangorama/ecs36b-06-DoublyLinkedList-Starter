@@ -23,18 +23,37 @@ class DoublyLinkedListIterator {
 
 
   //are the two iterators equal?
-  bool operator==(const DoublyLinkedListIterator<T>& rhs) const;
+  bool operator==(const DoublyLinkedListIterator<T> &rhs) const {
+   return this->curNode == rhs.curNode; //is my current position
+  }
+
   //are the two iterators different?
-  bool operator!=(const DoublyLinkedListIterator<T>& rhs) const;
+  bool operator!=(const DoublyLinkedListIterator<T> &rhs) const {
+   return this->curNode != rhs.curNode;
+  }
+
   //is the iterator safe to dereference?
-  explicit operator bool() const;
+  explicit operator bool() const {
+  }
 
   //go to the next element
-  DoublyLinkedListIterator<T>& operator++(); //pre
-  const DoublyLinkedListIterator<T> operator++(int);//post
+  DoublyLinkedListIterator<T> &operator++() {
+   return this->curNode = this->curNode->getNext();
+  }
+
+  //pre
+  const DoublyLinkedListIterator<T> operator++(int) {
+    return this->curNode = this->curNode->getNext();
+  }
+
+  //post
 
   //go to the previous element
-  DoublyLinkedListIterator<T>& operator--(); //pre
+  DoublyLinkedListIterator<T> &operator--() {
+   return this->curNode = this->curNode->getPrevious();
+  }
+
+  //pre
   const DoublyLinkedListIterator<T> operator--(int); //post
 
   //get a reference to the value
