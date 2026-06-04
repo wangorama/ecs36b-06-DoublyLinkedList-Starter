@@ -43,8 +43,9 @@ public:
 
     //pre
     const ConstDoublyLinkedListIterator<T> operator++(int) {
-        curNode = curNode -> next;
-        return *this;
+        ConstDoublyLinkedListIterator<T> temp = *this;  // ✅ this is correct
+        ++(*this);
+        return temp;
     }
 
     //post
@@ -57,8 +58,9 @@ public:
 
     //pre
     const ConstDoublyLinkedListIterator<T> operator--(int) {
-        curNode = curNode->prev;
-        return *this;
+        ConstDoublyLinkedListIterator<T> temp = *this;  // ✅ this is correct
+        --(*this);
+        return temp;
     }
 
     //post

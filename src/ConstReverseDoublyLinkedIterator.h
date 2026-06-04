@@ -7,6 +7,7 @@
 
 #include <iterator>
 #include "DoublyLinkedNode.h"
+#include "DoublyLinkedListOutOfBoundsError.h"
 
 template<typename T>
 class ConstReverseDoublyLinkedListIterator {
@@ -17,6 +18,8 @@ public:
     using reference = const value_type&;
     using pointer = const value_type*;
     using difference_type = ptrdiff_t;
+
+    ConstReverseDoublyLinkedListIterator(DoublyLinkedNode<T>* node): curNode(node){}
 
     //are the two iterators equal?
     bool operator==(const ConstReverseDoublyLinkedListIterator<T> &rhs) const {
@@ -41,8 +44,9 @@ public:
 
     //pre
     const ConstReverseDoublyLinkedListIterator<T> operator++(int) {
-        curNode = curNode->prev;
-        return *this;
+        ConstReverseDoublyLinkedListIterator<T> temp = *this;
+        ++(*this);
+        return temp;
     }
 
     //post
@@ -55,15 +59,17 @@ public:
 
     //pre
     const ConstReverseDoublyLinkedListIterator<T> operator--(int) {
-        curNode = curNode->next;
-        return *this;
+        ConstReverseDoublyLinkedListIterator<T> temp = *this;
+        --(*this);
+        return temp;
     }
 
     //post
 
     //get a reference to the value
     [[nodiscard]] reference operator*() const {
-        return *curNode;
+        if (curNode == nullptr) {throw DoublyLinkedListOutOfBoundsError();}
+        return (*curNode).value;
     }
 
 private:

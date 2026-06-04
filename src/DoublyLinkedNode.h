@@ -13,7 +13,7 @@ class DoublyLinkedNode {
  public:
     DoublyLinkedNode(T value): value(value), next(nullptr), prev(nullptr) {}
     DoublyLinkedNode(const T& value, DoublyLinkedNode<T>* next, DoublyLinkedNode<T>* prev) : value(value), next(next), prev(prev) {
-        //makes life easier, butner shows me
+        //makes life easier, as Butner shown me
     }
     T value;
     DoublyLinkedNode<T>* next;

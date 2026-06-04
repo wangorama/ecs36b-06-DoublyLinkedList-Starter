@@ -36,7 +36,7 @@ public:
     }
 
     //create an empty DoublyLinkedList
-    DoublyLinkedList(): head(nullptr), tail(nullptr) {
+    DoublyLinkedList(): head(nullptr), tail(nullptr), size_of_list(0) {
         //nullptr means its pointing to nothing, soo really nullptr is another word for 0
     }
 
@@ -114,14 +114,17 @@ public:
     void pop_front() {
         if (empty()) {throw DoublyLinkedListEmptyError();}
         if (size_of_list == 1) {
-            delete head;
-            head -> prev = nullptr;
+            Node_Ptr temp = head;
+            head = nullptr;
+            tail = nullptr;
+            delete temp;
         }
         else {
             //the head is now the previous
-            delete curNode -> next;
-            
-
+            Node_Ptr temp = head;
+            head = head -> next;
+            head -> prev = nullptr;
+            delete temp;
         }
 
         size_of_list--;
@@ -130,11 +133,19 @@ public:
     void pop_back() {
         if (empty()) {throw DoublyLinkedListEmptyError();}
         if (size_of_list == 1) {
-            tail -> prev = nullptr;
+            Node_Ptr temp = tail;
+            head = nullptr;
+            tail = nullptr;
+            delete temp;
         }
         else {
+            Node_Ptr temp = tail;
+            tail = tail -> prev;
+            tail -> next = nullptr;
+            delete temp;
 
         }
+        size_of_list--;
     }
 
     //is the list empty?
@@ -189,11 +200,12 @@ public:
     //1 <-> 22 <-> 9 <-> 17
     void insert(iterator &position, const T &value) {
         if (empty()) {push_back(value);}
-        else if (position.current == head) push_front(value);
+        else if (position.getCurNode() == head) push_front(value);
+        else if (position.getCurNode() == nullptr) push_back(value);
         else {
-            Node_Ptr newNode = new DoublyLinkedNode<T>(value, position.current, position.current->prev);
-            position.current->prev->next = newNode;
-            position.current->prev = newNode;
+            Node_Ptr newNode = new DoublyLinkedNode<T>(value, position.getCurNode(), position.getCurNode()->prev);
+            position.getCurNode()->prev->next = newNode;
+            position.getCurNode()->prev = newNode;
             size_of_list++;
         }
     }
@@ -205,29 +217,18 @@ public:
     //And when the wanted to erase the iterator was at the 9
     //1 <-> 17
     void erase(iterator &position) {
-        if (empty()) {
-            throw DoublyLinkedListEmptyError();
-        } if (size_of_list == 1) {
-            head = nullptr;
-            tail = nullptr;
-            delete position.current;
+        if (empty()) {throw DoublyLinkedListEmptyError();}
+        if (position.getCurNode() == head) pop_front();
+        else if (position.getCurNode() == tail) pop_back();
+        else {
+            Node_Ptr temp = position.getCurNode();
+            temp->next->prev = temp -> prev;
+            temp->prev->next = temp -> next;
+            delete temp;
             size_of_list--;
         }
-        else {
-            if (position.current == (head)) {
-                pop_front();
-            }
-            if (position.current == (tail)) {
-                pop_back();
-            }
-            else {
-                Node_Ptr newNode = new DoublyLinkedNode<T>();
-                delete position.current;
-                size_of_list--;
-            }
-
-        }
     }
+
 
 private:
     // your class members
@@ -242,7 +243,13 @@ private:
 //with a space in between them
 template<typename T>
 std::ostream &operator<<(std::ostream &out, const DoublyLinkedList<T> &doublyLinkedList) {
-    out<< doublyLinkedList;
+    bool first = true;
+    for (const auto& val : doublyLinkedList) {
+        if (!first) out << " ";
+        out << val;
+        first = false;
+    }
+    return out;
 }
 
 //read elements from the stream as long as it is good
@@ -250,10 +257,16 @@ std::ostream &operator<<(std::ostream &out, const DoublyLinkedList<T> &doublyLin
 //if a newline is encountered it should be consumed
 template<typename T>
 std::istream &operator>>(std::istream &in, DoublyLinkedList<T> &doublyLinkedList) {
-    T temp;
-    while (in >> doublyLinkedList) {
-        push_back(doublyLinkedList);
+    T value;
+    while (in.good() && in.peek() != '\n') {
+        if (in >> value) {
+            doublyLinkedList.push_back(value);
+        } else {
+            break;
+        }
     }
+
+    if (in.peek() == '\n') in.ignore();
     return in;
 
 }

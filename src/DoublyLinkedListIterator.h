@@ -21,7 +21,6 @@ class DoublyLinkedListIterator {
   using difference_type = ptrdiff_t;
 
 
-
  DoublyLinkedListIterator(DoublyLinkedNode<T>* node):curNode(node){}
 
   //are the two iterators equal?
