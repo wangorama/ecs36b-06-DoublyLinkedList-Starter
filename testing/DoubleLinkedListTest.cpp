@@ -473,4 +473,7 @@ TEST(InheritanceChecking, DoublyLinkedListErrorInherits){
   ASSERT_TRUE((std::is_base_of<std::exception, DoublyLinkedListError>::value));
 }
 
-//property test
+//property-based test
+RC_GTEST_PROP() {
+
+}

@@ -9,12 +9,12 @@
 
 template<typename T>
 class DoublyLinkedNode {
-    friend class DoublyLinkedList<T>;
 
  public:
-    DoublyLinkedNode(T value): value(value), next(next), prev(prev) {}
-
- private:
+    DoublyLinkedNode(T value): value(value), next(nullptr), prev(nullptr) {}
+    DoublyLinkedNode(const T& value, DoublyLinkedNode<T>* next, DoublyLinkedNode<T>* prev) : value(value), next(next), prev(prev) {
+        //makes life easier, butner shows me
+    }
     T value;
     DoublyLinkedNode<T>* next;
     DoublyLinkedNode<T>* prev;

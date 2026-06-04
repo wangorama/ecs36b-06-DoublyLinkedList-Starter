@@ -22,6 +22,8 @@ class DoublyLinkedListIterator {
 
 
 
+ DoublyLinkedListIterator(DoublyLinkedNode<T>* node):curNode(node){}
+
   //are the two iterators equal?
   bool operator==(const DoublyLinkedListIterator<T> &rhs) const {
    return this->curNode == rhs.curNode; //is my current position
@@ -29,39 +31,63 @@ class DoublyLinkedListIterator {
 
   //are the two iterators different?
   bool operator!=(const DoublyLinkedListIterator<T> &rhs) const {
-   return this->curNode != rhs.curNode;
+   return not (*this == rhs);
   }
 
   //is the iterator safe to dereference?
   explicit operator bool() const {
+   return this->curNode != nullptr;
   }
 
   //go to the next element
   DoublyLinkedListIterator<T> &operator++() {
-   return this->curNode = this->curNode->getNext();
+   curNode = curNode->next;
+   return *this;
   }
 
   //pre
   const DoublyLinkedListIterator<T> operator++(int) {
-    return this->curNode = this->curNode->getNext();
+  DoublyLinkedListIterator<T> temp = *this; //temp variable is the current
+  ++(*this); //then the actual original gets the changed by decrement
+  return temp; //but because temp remains unchanged, the post decrement will return this
+  //yet on the next iteration, it will finally show the decremented list
   }
 
   //post
 
   //go to the previous element
   DoublyLinkedListIterator<T> &operator--() {
-   return this->curNode = this->curNode->getPrevious();
+   curNode = curNode->prev;
+   return *this;
   }
 
   //pre
-  const DoublyLinkedListIterator<T> operator--(int); //post
+  const DoublyLinkedListIterator<T> operator--(int) {
+  DoublyLinkedListIterator<T> temp = *this;
+  --(*this);
+  return temp;
+  }
+
+  //post
 
   //get a reference to the value
-  [[nodiscard]] const_reference operator*() const;
-  [[nodiscard]] reference operator*();
+  [[nodiscard]] const_reference operator*() const {
+   if (curNode == nullptr) {throw DoublyLinkedListOutOfBoundsError();}
+   return (*curNode).value;
+  }
 
-  DoublyLinkedNode<T>*& getCurNode();
-  const DoublyLinkedNode<T>*& getCurNode() const;
+  [[nodiscard]] reference operator*() {
+   if (curNode == nullptr) {throw DoublyLinkedListOutOfBoundsError();}
+   return (*curNode).value;
+  }
+
+  DoublyLinkedNode<T> *&getCurNode() {
+    return curNode;
+  }
+
+  const DoublyLinkedNode<T> *&getCurNode() const {
+   return curNode;
+  }
 
  private:
   DoublyLinkedNode<T>* curNode;

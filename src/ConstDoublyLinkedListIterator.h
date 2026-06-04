@@ -18,27 +18,59 @@ public:
     using reference = const value_type&;
     using pointer = const value_type*;
     using difference_type = ptrdiff_t;
+    ConstDoublyLinkedListIterator(DoublyLinkedNode<T>* node):curNode(node){}
 
     //are the two iterators equal?
     bool operator==(const ConstDoublyLinkedListIterator<T> &rhs) const {
+        return this->curNode == rhs.curNode;
     }
 
     //are the two iterators different?
-    bool operator!=(const ConstDoublyLinkedListIterator<T>& rhs) const;
+    bool operator!=(const ConstDoublyLinkedListIterator<T> &rhs) const {
+        return this->curNode != rhs.curNode;
+    }
 
     //is the iterator safe to dereference?
-    explicit operator bool() const;
+    explicit operator bool() const {
+        return this->curNode != nullptr;
+    }
 
     //go to the next element
-    ConstDoublyLinkedListIterator<T>& operator++(); //pre
-    const ConstDoublyLinkedListIterator<T> operator++(int); //post
+    ConstDoublyLinkedListIterator<T> &operator++() {
+        curNode = curNode -> next;
+        return *this;
+    }
+
+    //pre
+    const ConstDoublyLinkedListIterator<T> operator++(int) {
+        curNode = curNode -> next;
+        return *this;
+    }
+
+    //post
 
     //go to the previous element
-    ConstDoublyLinkedListIterator<T>& operator--(); //pre
-    const ConstDoublyLinkedListIterator<T> operator--(int); //post
+    ConstDoublyLinkedListIterator<T> &operator--() {
+        curNode = curNode->prev;
+        return *this;
+    }
+
+    //pre
+    const ConstDoublyLinkedListIterator<T> operator--(int) {
+        curNode = curNode->prev;
+        return *this;
+    }
+
+    //post
 
     //get a reference to the value
-    [[nodiscard]] reference operator*() const;
+    [[nodiscard]] reference operator*() const {
+        if (curNode == nullptr) {throw DoublyLinkedListOutOfBoundsError();}
+        return (*curNode).value;
+    }
+
+private:
+    DoublyLinkedNode<T>* curNode;
 };
 
 #endif //DLLPROJECT_CONSTDOUBLYLINKEDLISTITERATOR_H
