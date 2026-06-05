@@ -46,7 +46,7 @@ public:
 
     //pre
     const ReverseDoublyLinkedListIterator<T> operator++(int) {
-        ReverseDoublyLinkedListIterator<T> temp = *this;  // ✅ this is correct
+        ReverseDoublyLinkedListIterator<T> temp = *this;
         ++(*this);
         return temp;
     }
@@ -61,7 +61,7 @@ public:
 
     //pre
     const ReverseDoublyLinkedListIterator<T> operator--(int) {
-        ReverseDoublyLinkedListIterator<T> temp = *this;  // ✅ this is correct
+        ReverseDoublyLinkedListIterator<T> temp = *this;
         --(*this);
         return temp;
     }
